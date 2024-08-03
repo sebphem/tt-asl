@@ -3,7 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 from draw_hands import draw_hand_landmarks_and_connections_return_image_path
 from pathlib import Path
-from backend import get_prediction_given_tensor, setup_image
+from backend.asl_prediction_buda import get_prediction_given_tensor, setup_image
 from PIL import Image
 
 app = Flask(__name__)
@@ -100,4 +100,4 @@ def delete_file():
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8081)
