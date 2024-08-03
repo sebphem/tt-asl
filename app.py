@@ -73,7 +73,7 @@ def your_ml_function(file_path):
     write_back_folder = Path(os.path.abspath('.')) / "image_queue"
     processed_image_path = draw_hand_landmarks_and_connections_return_image_path(file_path,write_back_folder)
 
-    tmp_img = Image.open(image_path)
+    tmp_img = Image.open(processed_image_path)
     tmp_tensor = setup_image(tmp_img)
     label = get_prediction_given_tensor(tmp_tensor)
 
@@ -96,7 +96,7 @@ def delete_file():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-    
+
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
