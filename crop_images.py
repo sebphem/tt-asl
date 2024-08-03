@@ -9,16 +9,12 @@ class CenterCropAndZoom:
 
     def __call__(self, img):
         # Center crop
-        crop_transform = transforms.CenterCrop(self.crop_size)
+        crop_transform = transforms.CenterCrop(self.crop_size*.8)
         img = crop_transform(img)
+        
+        resized_img = transforms.Resize([244,244])(img)
 
-        # Zoom in
-        width, height = img.size
-        new_size = (int(width * self.zoom_factor), int(height * self.zoom_factor))
-        resize_transform = transforms.Resize(new_size)
-        img = resize_transform(img)
-
-        return img
+        return resized_img
 
 def crop_and_zoom(image: str):
     

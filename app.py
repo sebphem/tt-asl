@@ -1,6 +1,10 @@
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, abort, jsonify
 import os
 from werkzeug.utils import secure_filename
+from draw_hands import draw_hand_landmarks_and_connections_return_image_path
+from pathlib import Path
+from backend import get_prediction_given_tensor, setup_image
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -60,12 +64,20 @@ def run_ml():
     processed_image_path = 'temp_proc.png'  # Path to the processed image
     label = 'A'  # Placeholder label
     
-    return jsonify({"image_path": url_for('static', filename=processed_image_path), "label": label})
+    return jsonify(your_ml_function(file_path=filename))
 
 
 def your_ml_function(file_path):
     # Replace with actual ML processing code
-    return f"Processed image located at: {file_path}"
+
+    write_back_folder = Path(os.path.abspath('.')) / "image_queue"
+    processed_image_path = draw_hand_landmarks_and_connections_return_image_path(file_path,write_back_folder)
+
+    tmp_img = Image.open(image_path)
+    tmp_tensor = setup_image(tmp_img)
+    label = get_prediction_given_tensor(tmp_tensor)
+
+    return {"image_path": url_for('static', filename=processed_image_path), "label": label}
 
 @app.route('/delete_file', methods=['POST'])
 def delete_file():
