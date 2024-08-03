@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>TT-asl</h1>
+        </header>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <label for="file-upload">Upload an Image</label>
+            <input type="file" id="file-upload" name="file" required>
+            <div id="file-name" class="file-name">No file chosen</div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
