@@ -67,7 +67,25 @@ def your_ml_function(file_path):
     # Replace with actual ML processing code
     return f"Processed image located at: {file_path}"
 
+@app.route('/delete_file', methods=['POST'])
+def delete_file():
+    filename = request.form.get('filename')
+    if not filename:
+        return jsonify({"error": "Filename not provided"}), 400
+
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    if not os.path.isfile(file_path):
+        return jsonify({"error": "File not found"}), 404
+
+    try:
+        os.remove(file_path)
+        return jsonify({"success": "File deleted"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+    
 if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
