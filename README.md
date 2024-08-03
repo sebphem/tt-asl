@@ -1,5 +1,5 @@
-# tt-hackathon-2024
-Tenstorment Hackathon team
+# TT-asl
+Tenstorrent American Sign Language
 
 Our buda model has a little demo in [asl_prediction_buda.ipynb](./asl_prediction_buda.ipynb), with a torch friendly version defined in [asl_prediction_torch.ipynb](./asl_prediction_buda.ipynb)
 
