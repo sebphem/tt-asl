@@ -49,15 +49,18 @@ def serve_file(filename):
 def run_ml():
     filename = request.form.get('filename')
     if not filename:
-        return jsonify({"label": "Error: Filename not provided"}), 400
+        return jsonify({"error": "Filename not provided"}), 400
     
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    if not os.path.isfile(file_path):
-        return jsonify({"label": "Error: File not found"}), 404
     
-    # Replace with actual ML processing code and save the processed image as temp_proc.png
-    result = "A"  # Placeholder for the actual label from your ML model
-    return jsonify({"label": result})  # Return the result as JSON
+    if not os.path.isfile(file_path):
+        return jsonify({"error": "File not found"}), 404
+    
+    # Replace with actual ML processing code
+    processed_image_path = 'temp_proc.png'  # Path to the processed image
+    label = 'A'  # Placeholder label
+    
+    return jsonify({"image_path": url_for('static', filename=processed_image_path), "label": label})
 
 
 def your_ml_function(file_path):
