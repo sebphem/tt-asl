@@ -84,7 +84,7 @@
                   }
                   
                   // Update the image source to show the processed image
-                  document.getElementById('uploaded-image').src = data.image_path;
+                  document.getElementById('uploaded-image').src = data.image;
                   document.getElementById('uploaded-image').alt = "Processed Image"; // Update the alt text
 
                   // Update the heading text to "Processed Image"
@@ -95,27 +95,21 @@
                   labelOverlay.innerHTML = data.label; // Set the label from the response
                   labelOverlay.style.display = 'block'; // Show the label overlay
 
-                  // Delete the original image
-                  fetch('{{ url_for('delete_file') }}', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded'
-                      },
-                      body: new URLSearchParams({ 'filename': '{{ filename }}' })
-                  }).then(response => response.json())
-                    .then(deleteData => {
-                        if (deleteData.error) {
-                            console.error('Delete Error:', deleteData.error);
-                        } else {
-                            console.log('File deleted successfully');
-                        }
-                    }).catch(error => {
-                        console.error('Error:', error);
-                    });
+                  // Optionally, you can also delete the original image if needed
               }).catch(error => {
                   console.error('Error:', error);
                   alert('An error occurred while processing the request.');
               });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var fileInput = document.getElementById('file-upload');
+            var fileNameDisplay = document.getElementById('file-name');
+
+            fileInput.addEventListener('change', function() {
+                var fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file chosen';
+                fileNameDisplay.textContent = fileName;
+            });
         });
     </script>
 </body>
