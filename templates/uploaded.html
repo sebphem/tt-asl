@@ -76,10 +76,15 @@
             fetch(this.action, {
                 method: this.method,
                 body: formData
-            }).then(response => response.json()) // Assuming the server returns JSON
+            }).then(response => response.json())
               .then(data => {
+                  if (data.error) {
+                      alert(data.error); // Handle error if present
+                      return;
+                  }
+                  
                   // Update the image source to show the processed image
-                  document.getElementById('uploaded-image').src = "{{ url_for('static', filename='temp_proc.png') }}";
+                  document.getElementById('uploaded-image').src = data.image_path;
                   document.getElementById('uploaded-image').alt = "Processed Image"; // Update the alt text
 
                   // Update the heading text to "Processed Image"
@@ -87,7 +92,7 @@
 
                   // Display the label overlay on the image
                   var labelOverlay = document.getElementById('label-overlay');
-                  labelOverlay.innerHTML = 'A'; // Placeholder for the label
+                  labelOverlay.innerHTML = data.label; // Set the label from the response
                   labelOverlay.style.display = 'block'; // Show the label overlay
               }).catch(error => {
                   console.error('Error:', error);
